@@ -1,0 +1,43 @@
+﻿<Window x:Class="WPFCalendar.EventControlPopUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCalendar"
+        mc:Ignorable="d"
+        Title="EventControlPopUp" Height="450" Width="800">
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="2">
+        <Label HorizontalAlignment="Center" >Major Event Text</Label>
+        </Border>
+        
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="2">
+            <Label HorizontalAlignment="Center">Signs</Label>
+        </Border>
+
+        <TextBox Grid.Row="1" Grid.Column="0" AcceptsReturn="true" Text="Major Event Text Here" Margin="5" Name="tbNewMajorEventTxt"  ></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="0" AcceptsReturn="true" Text="Major Event overarcing reason" Margin="5" Name="tbNewMajorEventreason"  ></TextBox>
+
+        <ListView Name="lwSigns" Margin="5" Grid.Column ="1" Grid.Row="1">
+        </ListView>
+
+        <StackPanel Grid.Row="2" Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBox VerticalAlignment="Center" MinWidth="30" Margin="5" Text="1" Name="DayOfoccurenceTxt" HorizontalContentAlignment="Center" ></TextBox>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" >Sign+</Button>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" >Save</Button>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" >Cancel</Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>

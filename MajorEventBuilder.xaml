@@ -1,0 +1,30 @@
+﻿<Window x:Class="WPFCalendar.MajorEventBuilder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFCalendar"
+        mc:Ignorable="d"
+        Title="MajorEventBuilder" Height="450" Width="450">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" AcceptsReturn="true" Text="Major Event Text Here" Margin="5" Name="tbNewMajorEventTxt"  ></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="0" AcceptsReturn="true" Text="Overarcing reason" Margin="5" Name="tbMajorEventOverarcing"  ></TextBox>
+        <ListBox Name="listSigns" Margin="5"  Grid.Row="1" Grid.Column="1"></ListBox>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Label>Happens on day</Label>
+            <TextBox VerticalAlignment="Center" MinWidth="30" Margin="5" Text="1" Name="DayOfoccurenceTxt" HorizontalContentAlignment="Center" ></TextBox>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" Click="Button_Click" >Sign+</Button>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" Click="Button_Click_2" >Save</Button>
+            <Button MaxHeight="30" MaxWidth="50" Margin="5" Click="Button_Click_1" >Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

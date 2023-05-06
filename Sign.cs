@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WPFCalendar
 {
-  public class StoryPoint
+    internal class Sign
     {
         public string EventText, EventReason;
         public int DayOfOccurence;
-
-        public StoryPoint(string eventText, string eventReason, int dayOfOccurence)
+        public int DayOfOriginOfMajor;
+        public Sign(string eventText, string eventReason, int dayOfOccurence)
         {
             EventText = eventText;
             EventReason = eventReason;
@@ -23,8 +23,6 @@ namespace WPFCalendar
             return EventText + " " + DayOfOccurence;
         }
 
-        //Character of origin
-        //Character Target
 
     }
 }

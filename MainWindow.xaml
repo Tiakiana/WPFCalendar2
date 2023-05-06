@@ -48,5 +48,6 @@
         </TabItem >
         <TabItem Header="Characters" IsTabStop="false" Name="tabCharacters"></TabItem>
         <TabItem Header="Locations" IsTabStop="False" Name="tabLocations"></TabItem>
+        <TabItem Header="Timeline" IsTabStop="False" Name="tabTimeLine"></TabItem>
     </TabControl>
 </Window>

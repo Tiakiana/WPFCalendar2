@@ -24,9 +24,6 @@ namespace WPFCalendar
         {
             InitializeComponent();
             spCharacters.Children.Add(new Character());
-            spCharacters.Children.Add(new Character());
-            spCharacters.Children.Add(new Character());
-            spCharacters.Children.Add(new Character());
             //spCharacters.Children.Add(new Character("Jakob","Jakob","Jakob","Jakob"));
             //spCharacters.Children.Add(new Character("Jakob1","Jakob1","Jakob1","Jakob1"));
             //spCharacters.Children.Add(new Character("Jakob2","Jakob2","Jakob2","Jakob2"));

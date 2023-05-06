@@ -33,6 +33,8 @@ namespace WPFCalendar
         public MainWindow()
         {
             InitializeComponent();
+
+
             StoryController = new StoryPointController();
             Persistence = new Persistence(StoryController);
             StoryController.StoryPoints = Persistence.LoadCalendar();
@@ -50,17 +52,24 @@ namespace WPFCalendar
             {
                 this.Topmost = true;
                 this.Topmost = false;
-                //MessageBox.Show("Tiden er gået");
+                MessageBox.Show("Tiden er gået");
             }
             Day++;
+            ClosePopUp();
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
             Day--;
             RefreshPage();
+            ClosePopUp();
         }
-        
+        public void ShowMajorEventCreator()
+        {
+
+            MajorEventBuilder cto = new MajorEventBuilder(this);
+            cto.Show();
+        }
 
         private void RefreshPage()
         {
@@ -104,6 +113,7 @@ namespace WPFCalendar
         {
             Day++;
             RefreshPage();
+            ClosePopUp();
             //tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             //tbMainView.ToolTip = StoryController.ConcatenateReasons(StoryController.FindCurrentStoryPoints(Day));
             //lblpageInformation.Content = Day;
@@ -225,6 +235,17 @@ namespace WPFCalendar
 
 
         }
+
+        void ClosePopUp()
+        {
+            if (popup != null)
+            {
+            popup.IsOpen = false;
+
+            popup = null;
+            }
+        }
+
         
         void DeleteStoryPoint(StoryPoint point, System.Windows.Controls.Primitives.Popup popup)
         {
