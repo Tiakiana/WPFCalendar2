@@ -58,6 +58,7 @@ namespace WPFCalendar
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             SignBuilder sg = new SignBuilder(tbMajorEventOverarcing.Text,int.Parse(DayOfoccurenceTxt.Text),listSigns,this);
+            sg.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             sg.Show();
             this.Hide();
         }

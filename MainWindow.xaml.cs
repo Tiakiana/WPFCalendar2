@@ -32,6 +32,7 @@ namespace WPFCalendar
         public Persistence Persistence;
         public MainWindow()
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
 
 
@@ -68,6 +69,7 @@ namespace WPFCalendar
         {
 
             MajorEventBuilder cto = new MajorEventBuilder(this);
+            cto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             cto.Show();
             this.Hide();
         }
