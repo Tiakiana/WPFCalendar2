@@ -69,6 +69,7 @@ namespace WPFCalendar
 
             MajorEventBuilder cto = new MajorEventBuilder(this);
             cto.Show();
+            this.Hide();
         }
 
         private void RefreshPage()
@@ -255,5 +256,14 @@ namespace WPFCalendar
             RefreshPage();
         }
 
+        private void tabTimeLine_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ShowMajorEventCreator();
+        }
+
+        private void tabTimeLine_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

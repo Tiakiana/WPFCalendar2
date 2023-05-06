@@ -48,6 +48,6 @@
         </TabItem >
         <TabItem Header="Characters" IsTabStop="false" Name="tabCharacters"></TabItem>
         <TabItem Header="Locations" IsTabStop="False" Name="tabLocations"></TabItem>
-        <TabItem Header="Timeline" IsTabStop="False" Name="tabTimeLine"></TabItem>
+        <TabItem Header="RightClickMe" IsTabStop="False" Name="tabTimeLine" MouseRightButtonDown="tabTimeLine_MouseRightButtonDown" ></TabItem>
     </TabControl>
 </Window>

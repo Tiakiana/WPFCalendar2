@@ -92,37 +92,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Character.xaml.cs">
+    <Compile Include="Controllers\Character.xaml.cs">
       <DependentUpon>Character.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Characters.xaml.cs">
+    <Compile Include="Controllers\Characters.xaml.cs">
       <DependentUpon>Characters.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventControlPopUp.xaml.cs">
+    <Compile Include="Controllers\EventControlPopUp.xaml.cs">
       <DependentUpon>EventControlPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MajorEventBuilder.xaml.cs">
+    <Compile Include="Windows\MajorEventBuilder.xaml.cs">
       <DependentUpon>MajorEventBuilder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Persistence.cs" />
-    <Compile Include="Sign.cs" />
-    <Compile Include="SignBuilder.xaml.cs">
+    <Compile Include="Controllers\Persistence.cs" />
+    <Compile Include="Models\Sign.cs" />
+    <Compile Include="Windows\SignBuilder.xaml.cs">
       <DependentUpon>SignBuilder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StoryPoint.cs" />
-    <Compile Include="StoryPointController.cs" />
-    <Compile Include="TimelineControl.xaml.cs">
+    <Compile Include="Models\StoryPoint.cs" />
+    <Compile Include="Controllers\StoryPointController.cs" />
+    <Compile Include="Controllers\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="Character.xaml">
+    <Page Include="Controllers\Character.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Characters.xaml">
+    <Page Include="Controllers\Characters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EventControlPopUp.xaml">
+    <Page Include="Controllers\EventControlPopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,15 +138,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MajorEventBuilder.xaml">
+    <Page Include="Windows\MajorEventBuilder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SignBuilder.xaml">
+    <Page Include="Windows\SignBuilder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TimelineControl.xaml">
+    <Page Include="Controllers\TimelineControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
