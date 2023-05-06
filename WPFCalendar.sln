@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCalendar", "WPFCalendar.csproj", "{D011C202-3D84-4857-87C9-3C1A65A540F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D011C202-3D84-4857-87C9-3C1A65A540F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D011C202-3D84-4857-87C9-3C1A65A540F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D011C202-3D84-4857-87C9-3C1A65A540F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D011C202-3D84-4857-87C9-3C1A65A540F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B42E12E2-A89B-4F2D-9906-DB520B237137}
+	EndGlobalSection
+EndGlobal
