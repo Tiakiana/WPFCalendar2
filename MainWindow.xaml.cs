@@ -26,38 +26,67 @@ namespace WPFCalendar
         //{
         //    InitializeComponent();
         //}
-        int Day = 1;
-
+        int Day = 8;
+        int Month = 0; 
         public StoryPointController StoryController;
         public Persistence Persistence;
+
+        public List<string> Months = new List<string>() {"Resplendant Water", "Descending Water",
+            "Ascending Wood", "Resplendant Wood", "Descending Wood",
+            "Ascending Fire", "Resplendant Fire", "Descending Fire",
+        "Ascending Earth", "Resplendant Earth", "Descending Earth",
+        "Calibration",
+          "Ascending Air", "Resplendant Air", "Descending Air",
+        "Ascending Water"  
+        };
+
+        public string GetDate(int day)
+        {
+            Month = 0;
+            for (int i = 1; i < day; i++)
+            {
+                if (i%28 == 0)
+                {
+                    Month++;
+                }
+            }
+                
+            return (Day - 28 * Month).ToString() +". of " + Months[Month];
+        }
+
+        MainWindow me;
         public MainWindow()
         {
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             InitializeComponent();
-
+            me = this;
 
             StoryController = new StoryPointController();
             Persistence = new Persistence(StoryController);
+            Day = Persistence.LoadDate();
             StoryController.StoryPoints = Persistence.LoadCalendar();
 
             tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             lblpageInformation.Content = Day;
             tabCharacters.Content = new Characters();
+
             RefreshPage();
         }
+        
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            //label.Content = DateTime.Now.ToLongTimeString();
-            if (Day == 4)
-            {
-                this.Topmost = true;
-                this.Topmost = false;
-                MessageBox.Show("Tiden er gået");
-            }
-            Day++;
-            ClosePopUp();
-        }
+
+        //void timer_Tick(object sender, EventArgs e)
+        //{
+        //    //label.Content = DateTime.Now.ToLongTimeString();
+        //    if (Day == 4)
+        //    {
+        //        this.Topmost = true;
+        //        this.Topmost = false;
+        //        MessageBox.Show("Tiden er gået");
+        //    }
+        //    Day++;
+        //    ClosePopUp();
+        //}
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
@@ -109,7 +138,8 @@ namespace WPFCalendar
             tooltip.Content = pnl;
             tbMainView.ToolTip = tooltip;
 
-            lblpageInformation.Content = Day;
+            lblpageInformation.Content =  Day;
+            me.Title = "RPG Calendar - " + GetDate(Day);
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
@@ -266,6 +296,11 @@ namespace WPFCalendar
         private void tabTimeLine_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Persistence.SaveDate(Day);
         }
     }
 }

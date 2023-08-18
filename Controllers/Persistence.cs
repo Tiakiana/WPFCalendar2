@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,12 @@ namespace WPFCalendar
             MainPath = AppDomain.CurrentDomain.BaseDirectory;// System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             FileName = "Save1.txt";
         }
+
+        public void SaveDate(int day)
+        {
+            File.WriteAllText(MainPath +"Date.txt",day.ToString());
+        }
+     
 
         public void SaveCalendar()
         {
@@ -45,7 +53,15 @@ namespace WPFCalendar
             }
             return stories;
         }
-
+        public int LoadDate()
+        {
+            if (File.Exists(MainPath+"Date.txt"))
+            {
+                string date = File.ReadAllText(MainPath+"Date.txt");
+                return int.Parse(date);
+            }
+            return 1;
+        }
 
     }
 }
