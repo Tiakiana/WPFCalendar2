@@ -11,7 +11,7 @@ namespace WPFCalendar
         public List<StoryPoint> StoryPoints = new List<StoryPoint>();
 
         public List<StoryPoint> CurrentStoryPoints = new List<StoryPoint>();
-
+        public string[] PlayerLocations;
         public List<StoryPoint> FindCurrentStoryPoints(int day)
         {
             List<StoryPoint> storypoints = new List<StoryPoint>();

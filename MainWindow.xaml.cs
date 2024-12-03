@@ -65,10 +65,10 @@ namespace WPFCalendar
             Persistence = new Persistence(StoryController);
             Day = Persistence.LoadDate();
             StoryController.StoryPoints = Persistence.LoadCalendar();
-
+            StoryController.PlayerLocations = Persistence.LoadLocationsOfPlayers();
             tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             lblpageInformation.Content = Day;
-            tabCharacters.Content = new Characters();
+           // tabCharacters.Content = new Characters();
 
             RefreshPage();
         }
@@ -138,11 +138,25 @@ namespace WPFCalendar
             tooltip.Content = pnl;
             tbMainView.ToolTip = tooltip;
 
+            IsaLocation.Document.Blocks.Clear();
+            IsaLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[0])));
+            ThomasLocation.Document.Blocks.Clear();
+            ThomasLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[1])));
+            QuangLocation.Document.Blocks.Clear();
+            QuangLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[2])));
+            JimmyLocation.Document.Blocks.Clear();
+            JimmyLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[3])));
+            ChopartLocation.Document.Blocks.Clear();
+            ChopartLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[4])));
+
+
+
             lblpageInformation.Content =  Day;
             me.Title = "RPG Calendar - " + GetDate(Day);
+           
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
+      private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             Day++;
             RefreshPage();
@@ -151,7 +165,16 @@ namespace WPFCalendar
             //tbMainView.ToolTip = StoryController.ConcatenateReasons(StoryController.FindCurrentStoryPoints(Day));
             //lblpageInformation.Content = Day;
         }
+        private void btnCommitLocations(object sender, RoutedEventArgs e)
+        {
+            string isatext = new TextRange(IsaLocation.Document.ContentStart, IsaLocation.Document.ContentEnd).Text;
+            string thomastext = new TextRange(ThomasLocation.Document.ContentStart, ThomasLocation.Document.ContentEnd).Text;
+            string quangtext = new TextRange(QuangLocation.Document.ContentStart, QuangLocation.Document.ContentEnd).Text;
+            string jimmytext = new TextRange(JimmyLocation.Document.ContentStart, JimmyLocation.Document.ContentEnd).Text;
+            string choparttext = new TextRange(ChopartLocation.Document.ContentStart, ChopartLocation.Document.ContentEnd).Text;
 
+            Persistence.SaveLocationsOfPlayers(isatext,thomastext,quangtext,jimmytext,choparttext);
+        }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -174,6 +197,20 @@ namespace WPFCalendar
         }
 
         #region Got focus
+        private void gotsMeSomeFocus(object sender, RoutedEventArgs e)
+        {
+            var textbox = e.OriginalSource as RichTextBox;
+            textbox.SelectAll();
+        }
+        private void gotsMeSomeFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            RichTextBox tb = e.OriginalSource as RichTextBox;
+
+            tb.SelectAll();
+
+            //var textbox = e.OriginalSource as TextBox;
+            //textbox.SelectAll();
+        }
 
         private void tbNewEventTxt_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -301,6 +338,29 @@ namespace WPFCalendar
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Persistence.SaveDate(Day);
+            btnCommitLocations(null,null);
+        }
+
+        private void btnPriviousFive_Click(object sender, RoutedEventArgs e)
+        {
+            Day--;
+            Day--;
+            Day--;
+            Day--;
+            Day--;
+            RefreshPage();
+            ClosePopUp();
+        }
+
+        private void btnNextFive_Click(object sender, RoutedEventArgs e)
+        {
+            Day++;
+            Day++;
+            Day++;
+            Day++;
+            Day++;
+            RefreshPage();
+            ClosePopUp();
         }
     }
 }
