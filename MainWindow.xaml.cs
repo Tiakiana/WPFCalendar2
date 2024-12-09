@@ -1,60 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+using WPFCalendar.Controllers;
+
 
 namespace WPFCalendar
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        //public MainWindow()
-        //{
-        //    InitializeComponent();
-        //}
         int Day = 8;
         int Month = 0; 
         public StoryPointController StoryController;
         public Persistence Persistence;
+        
 
-        public List<string> Months = new List<string>() {"Resplendant Water", "Descending Water",
-            "Ascending Wood", "Resplendant Wood", "Descending Wood",
-            "Ascending Fire", "Resplendant Fire", "Descending Fire",
-        "Ascending Earth", "Resplendant Earth", "Descending Earth",
-        "Calibration",
-          "Ascending Air", "Resplendant Air", "Descending Air",
-        "Ascending Water"  
+        //public List<string> Months = new List<string>() {"Resplendant Water", "Descending Water",
+        //    "Ascending Wood", "Resplendant Wood", "Descending Wood",
+        //    "Ascending Fire", "Resplendant Fire", "Descending Fire",
+        //"Ascending Earth", "Resplendant Earth", "Descending Earth",
+        //"Calibration",
+        //  "Ascending Air", "Resplendant Air", "Descending Air",
+        //"Ascending Water"  
+        //};
+
+        //Morning:  Dragon -> Serpent
+        //Midday:   Horse And the Monkey
+        //Evening:  Rooster and the Boar
+        //Night:    Rat and the hare
+
+
+        public List<string> Months = new List<string>() {
+            "Hare", "Dragon", "Serpent", 
+            "Horse", "Goat", "Monkey", 
+            "Rooster", "Dog","Boar", 
+            "Rat", "Ox", "Tiger"
         };
 
+        int yearOfStart = 1100;
         public string GetDate(int day)
         {
+            int dai = 1;
             Month = 0;
+            int year = 0;
             for (int i = 1; i < day; i++)
             {
+                dai++;
+                if (dai>28)
+                {
+                    dai = 1;
+                }
                 if (i%28 == 0)
                 {
                     Month++;
+                    if (Month>11)
+                    {
+                        year++;
+                        Month = 0;
+                    }
                 }
             }
                 
-            return (Day - 28 * Month).ToString() +". of " + Months[Month];
+            return (dai +". of the " + Months[Month]+" "+ (yearOfStart+year));
         }
 
         MainWindow me;
+        BroadcastService BroadcastService;
+
         public MainWindow()
         {
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -63,32 +78,32 @@ namespace WPFCalendar
 
             StoryController = new StoryPointController();
             Persistence = new Persistence(StoryController);
+            //Persistence.SaveLocationsOfPlayers("Waka", "Waka", "Waka", "Waka", "Waka");
+            //Persistence.SaveCalendar();
+            //Persistence.SaveDate(1);
+
             Day = Persistence.LoadDate();
             StoryController.StoryPoints = Persistence.LoadCalendar();
+
             StoryController.PlayerLocations = Persistence.LoadLocationsOfPlayers();
             tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             lblpageInformation.Content = Day;
-           // tabCharacters.Content = new Characters();
-
+          
             RefreshPage();
+
+            BroadcastService = new BroadcastService(this);
+
         }
         
+        public void btnLabel_Click(object sender, RoutedEventArgs e)
+        {
+            BroadcastService.BroadcastMessage("Hej");
+            MyLabel.Content = "Sending";
+        
+        }
 
 
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //    //label.Content = DateTime.Now.ToLongTimeString();
-        //    if (Day == 4)
-        //    {
-        //        this.Topmost = true;
-        //        this.Topmost = false;
-        //        MessageBox.Show("Tiden er gået");
-        //    }
-        //    Day++;
-        //    ClosePopUp();
-        //}
-
-        private void btnPrevious_Click(object sender, RoutedEventArgs e)
+            private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
             Day--;
             RefreshPage();
@@ -120,18 +135,6 @@ namespace WPFCalendar
                 tbk = new TextBlock();
                 tbk.Text = texts[i];
                 pnl.Children.Add(tbk);
-                //Dette skal lavestil et popup vindue i stedet, hvis jeg vil have knapper, der kan vælge hvilke info jeg gerne vil edit'e
-                //Button btn = new Button();
-                //btn.Height = 30;
-
-                //btn.Width = 30;
-
-                //btn.Content = "Click ME";
-                //btn.Background = new SolidColorBrush(Colors.White);
-                //btn.Foreground = new SolidColorBrush(Colors.Black);
-                //btn.Click += (object sender, RoutedEventArgs e) => { MessageBox.Show("Clicked"); };
-                //pnl.Children.Add(btn);  
-
             }
 
             ToolTip tooltip = new ToolTip();
@@ -148,13 +151,19 @@ namespace WPFCalendar
             JimmyLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[3])));
             ChopartLocation.Document.Blocks.Clear();
             ChopartLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[4])));
-
-
-
             lblpageInformation.Content =  Day;
             me.Title = "RPG Calendar - " + GetDate(Day);
-           
+
+            for (int i = 0; i < 6; i++)
+            {
+            dropDownTimeOfDay.Items.Add(new ComboBoxItem().Content = (TimeOfDay)i); 
+
+            }
+
+
         }
+        int TimeOfDaySelected = 0;
+
 
       private void btnNext_Click(object sender, RoutedEventArgs e)
         {
@@ -180,11 +189,23 @@ namespace WPFCalendar
         {
             try
             {
+                bool ting;
+                if (playerEyesTickBox.IsChecked == null)
+                {
+                    ting = false;
+                }
+                else
+                {
+                    ting = true;
+                }
+
                 int thing = int.Parse(tbNewDay.Text);
-                StoryController.StoryPoints.Add(new StoryPoint(tbNewEventTxt.Text, tbNewEventReason.Text, int.Parse(tbNewDay.Text)));
+                StoryController.StoryPoints.Add(new StoryPoint(tbNewEventTxt.Text, tbNewEventReason.Text, int.Parse(tbNewDay.Text),(TimeOfDay)TimeOfDaySelected,ting));
                 tbNewDay.Text = "" + (Day + 1);
                 tbNewEventReason.Text = "Reason";
                 tbNewEventTxt.Text = "Text";
+                playerEyesTickBox.IsChecked = false;
+                dropDownTimeOfDay.SelectedIndex = 0;
                 Persistence.SaveCalendar();
                 RefreshPage();
             }
@@ -322,6 +343,7 @@ namespace WPFCalendar
             popup.IsOpen = false; 
             popup = null;
             StoryController.StoryPoints.Remove(point);
+            Persistence.SaveCalendar();
             RefreshPage();
         }
 
@@ -362,5 +384,13 @@ namespace WPFCalendar
             RefreshPage();
             ClosePopUp();
         }
+
+        private void dropDownSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            ComboBox sen = sender as ComboBox;
+            TimeOfDaySelected = sen.SelectedIndex;
+          
+        }
+
     }
 }

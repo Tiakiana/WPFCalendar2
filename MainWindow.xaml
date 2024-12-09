@@ -12,9 +12,10 @@
         <TabItem Header="Events" IsTabStop="false">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="87*"></ColumnDefinition>
+                    <ColumnDefinition Width="178*"/>
+                    <ColumnDefinition Width="265*"></ColumnDefinition>
+                    <ColumnDefinition Width="265*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"></RowDefinition>
@@ -23,14 +24,14 @@
                     <RowDefinition Height="1*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBox ToolTipService.ShowDuration="30000" IsReadOnly="true"  IsTabStop="False" Text="Jakob"  Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="5" Name="tbMainView" MouseDoubleClick="tbMainView_MouseDoubleClick"></TextBox>
-                <Button Grid.Row="3" IsTabStop="false" Grid.Column="0" Grid.ColumnSpan="2" Height="23"  HorizontalAlignment="Center" VerticalAlignment="top" Margin="4,4,150,4"  Width="40" Name="btnPrevious" Opacity="0.75" Content="&lt;" Click="btnPrevious_Click"/>
-                <Button Grid.Row="3" IsTabStop="false" Grid.Column="0" Grid.ColumnSpan="1" Height="23"  HorizontalAlignment="Center" VerticalAlignment="top" Margin="4,4,150,4"  Width="40" Name="btnPriviousFive" Opacity="0.75" Content="&lt;&lt;" Click="btnPriviousFive_Click"/>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="lblpageInformation" HorizontalContentAlignment="Center"  HorizontalAlignment="center" Margin="4" Height="30" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Top" Content="1"/>
-                <Button Grid.Row="3" IsTabStop="false" Grid.Column="0" Grid.ColumnSpan="2" Height="23" Margin="150,4,4,4" HorizontalAlignment="Center" Name="btnNext" VerticalAlignment="Top" Width="40" Content="&gt;"  Opacity="0.75" Click="btnNext_Click"/>
-                <Button Grid.Row="3" IsTabStop="false" Grid.Column="1" Grid.ColumnSpan="1" Height="23" Margin="150,4,4,4" HorizontalAlignment="Center" Name="btnNextFive" VerticalAlignment="Top" Width="40" Content="&gt;&gt;"  Opacity="0.75" Click="btnNextFive_Click" />
+                <TextBox ToolTipService.ShowDuration="30000" IsReadOnly="true"  IsTabStop="False" Text="Jakob"  Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="5,5,5,5" Name="tbMainView" MouseDoubleClick="tbMainView_MouseDoubleClick"></TextBox>
+                <Button Grid.Row="3" IsTabStop="false" Grid.Column="1" Height="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,4,0,0"  Width="40" Name="btnPrevious" Opacity="0.75" Content="&lt;" Click="btnPrevious_Click"/>
+                <Button Grid.Row="3" IsTabStop="false" Grid.Column="0" Grid.ColumnSpan="1" Height="23"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,4,0,0"  Width="40" Name="btnPriviousFive" Opacity="0.75" Content="&lt;&lt;" Click="btnPriviousFive_Click"/>
+                <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" x:Name="lblpageInformation" HorizontalContentAlignment="Center"  HorizontalAlignment="Left" Margin="128,4,0,0" Height="30" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Top" Content="1"/>
+                <Button Grid.Row="3" IsTabStop="false" Grid.Column="2" Height="23" Margin="53,4,0,0" HorizontalAlignment="Left" Name="btnNext" VerticalAlignment="Top" Width="40" Content="&gt;"  Opacity="0.75" Click="btnNext_Click"/>
+                <Button Grid.Row="3" IsTabStop="false" Grid.Column="2" Grid.ColumnSpan="1" Height="23" Margin="185,4,0,0" HorizontalAlignment="Left" Name="btnNextFive" VerticalAlignment="Top" Width="40" Content="&gt;&gt;"  Opacity="0.75" Click="btnNextFive_Click" />
 
-                <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="4">
+                <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="2" Margin="264,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"></RowDefinition>
                         <RowDefinition Height="6*"></RowDefinition>
@@ -44,6 +45,8 @@
                     <StackPanel Grid.Row="3" Orientation="Horizontal">
                         <Label Grid.Row="3" VerticalAlignment="Center" Content="Day"></Label>
                         <TextBox  Name="tbNewDay" Grid.Row="3" Width="25" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" GotKeyboardFocus="tbNewDay_GotKeyboardFocus" TabIndex="2">1</TextBox>
+                        <ComboBox x:Name="dropDownTimeOfDay" Width="85"  SelectionChanged="dropDownSelectionChanged"></ComboBox>
+                        <CheckBox x:Name="playerEyesTickBox" Content="visible" ></CheckBox>
                     </StackPanel>
                     <Button Grid.Row="3" Width="50" HorizontalAlignment="Right" Name="btnSave" Margin="0,5,5,5" Click="btnSave_Click" TabIndex="3">Save</Button>
                 </Grid>
@@ -77,10 +80,25 @@
                 <RichTextBox GotKeyboardFocus="gotsMeSomeFocus" GotFocus="gotsMeSomeFocus" x:Name="ChopartLocation" Grid.Row="5" Grid.Column="1"></RichTextBox>
                 <Button Margin="10" Grid.Row="0" Grid.Column="2" Click="btnCommitLocations" >Commit</Button>
             </Grid>
-            
+
 
         </TabItem>
-        <TabItem Header="Locations" IsTabStop="False" Name="tabLocations"></TabItem>
+        <TabItem Header="Locations" IsTabStop="False" Name="tabLocations">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="MyLabel" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="btnLabel_Click">Click på mig ikke knappen!</Label>
+                <Button >Sendnoget</Button>
+            </Grid>
+        </TabItem>
         <TabItem Header="RightClickMe" IsTabStop="False" Name="tabTimeLine" MouseRightButtonDown="tabTimeLine_MouseRightButtonDown" ></TabItem>
     </TabControl>
 </Window>

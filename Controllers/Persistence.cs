@@ -29,22 +29,26 @@ namespace WPFCalendar
             string res = $"{isa}¤{thomas}¤{quang}¤{jimmy}¤{chopart}";
             File.WriteAllText(MainPath + "Location.txt", res);
         }
-        public string[] LoadLocationsOfPlayers()
-        {
-            string[] res = File.ReadAllText(MainPath + "Location.txt").Split('¤');
-            return res;
-        }
+
 
         public void SaveCalendar()
         {
             string res = "";
             foreach (var item in _storyPointController.StoryPoints)
             {
-                res += $"{item.EventText}(,){item.EventReason}(,){item.DayOfOccurence}(n)";
+                res += $"{item.EventText}(,){item.EventReason}(,){item.DayOfOccurence}(,){(int)item.TimeOfDay}(,){item.PlayerAvailable.ToString()}(n)";
             }
             System.IO.File.WriteAllText(MainPath + FileName, res);
         }
-
+        public string[] LoadLocationsOfPlayers()
+        {
+            if (!File.Exists(MainPath + "Location.txt"))
+            {
+                File.WriteAllText(MainPath + "Location.txt", "¤¤¤¤");
+            }
+            string[] res = File.ReadAllText(MainPath + "Location.txt").Split('¤');
+            return res;
+        }
         public List<StoryPoint> LoadCalendar()
         {
             if (!System.IO.File.Exists(MainPath + FileName))
@@ -58,7 +62,7 @@ namespace WPFCalendar
             foreach (var item in lines)
             {
                 string[] splits = item.Split(new string[] { "(,)" }, StringSplitOptions.RemoveEmptyEntries);
-                stories.Add(new StoryPoint(splits[0], splits[1], int.Parse(splits[2])));
+                stories.Add(new StoryPoint(splits[0], splits[1], int.Parse(splits[2]), (TimeOfDay)int.Parse(splits[3]), splits[4]=="True"?true:false));
             }
             return stories;
         }

@@ -25,6 +25,30 @@ namespace WPFCalendar
             return storypoints;
         }
 
+        public string StringifyStoryPoints()
+        {
+            string res = "";
+            for (int i = 0; i < StoryPoints.Count; i++)
+            {
+                StoryPoint item = StoryPoints[i];
+
+                if (item.PlayerAvailable)
+                {
+                    res += item.EventText + "|";
+                    res += item.EventReason + "|";
+                    res += (int)item.TimeOfDay + "|";
+                    res += item.DayOfOccurence;
+                    if (i < StoryPoints.Count - 1)
+                    {
+                        res += "¤";
+                    }
+
+                }
+            }
+            return res;
+        }
+
+
         public string ConcatenateStorypoints(List<StoryPoint> storypoints)
         {
             string res = "";
@@ -67,7 +91,7 @@ namespace WPFCalendar
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        originstext +=  words[i] +" ";
+                        originstext += words[i] + " ";
                     }
                 }
                 originstext += "...:";

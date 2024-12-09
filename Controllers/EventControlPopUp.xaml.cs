@@ -22,7 +22,7 @@ namespace WPFCalendar
         public EventControlPopUp()
         {
             InitializeComponent();
-            lwSigns.Items.Add(new StoryPoint("her","er",4));
+            lwSigns.Items.Add(new StoryPoint("her","er",4,TimeOfDay.Morning,false));
 
         }
     }

@@ -74,6 +74,7 @@ namespace WPFCalendar
         {
             _main.StoryController.StoryPoints.Add(new StoryPoint(tbNewMajorEventTxt.Text,tbMajorEventOverarcing.Text,int.Parse(DayOfoccurenceTxt.Text)));
             _main.StoryController.StoryPoints.AddRange(Points);
+            
             _main.Persistence.SaveCalendar();
             _main.Show();
             this.Close();
