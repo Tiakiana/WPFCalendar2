@@ -36,7 +36,7 @@ namespace WPFCalendar.Controllers
             OrderService = new OrderService(this,Main);
             Players.Add("GM",new Player());
             await Initialize();
-            OnMessageReceived += MessageReceived;
+         //   OnMessageReceived += MessageReceived;
   //          LookForTasksInMessagesCO();
         }
         async Task LookForTasksInMessagesCO()
