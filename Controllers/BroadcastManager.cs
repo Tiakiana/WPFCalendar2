@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Collections;
-using System.Diagnostics;
-using static System.Net.WebRequestMethods;
 using System.Threading;
 namespace WPFCalendar.Controllers
 {
@@ -13,7 +10,10 @@ namespace WPFCalendar.Controllers
     {
 
         // public const string ServerAddress = "https://jaar.webhotel-itskp.dk/SignalR4Unity";
-        public const string ServerAddress = "http://localhost:5000";
+        //public const string ServerAddress = "http://localhost:5000";
+        public const string ServerAddress = "http://5.186.68.226:5000";
+        
+        
         private const string Hub = "/NotificationHub";
         public Dictionary<string, Player> Players = new Dictionary<string, Player>();
         public static BroadcastService inst;
@@ -24,20 +24,20 @@ namespace WPFCalendar.Controllers
         public OrderService OrderService;
         MainWindow Main;
 
-        public  BroadcastService(MainWindow main)
+        public BroadcastService(MainWindow main)
         {
-            Main= main;
-           Start();
+            Main = main;
+            Start();
         }
 
-       async void Start()
+        async void Start()
         {
-         
-            OrderService = new OrderService(this,Main);
-            Players.Add("GM",new Player());
+
+            OrderService = new OrderService(this, Main);
+            Players.Add("GM", new Player());
             await Initialize();
-         //   OnMessageReceived += MessageReceived;
-  //          LookForTasksInMessagesCO();
+            OnMessageReceived += MessageReceived;
+            //          LookForTasksInMessagesCO();
         }
         async Task LookForTasksInMessagesCO()
         {
@@ -48,14 +48,14 @@ namespace WPFCalendar.Controllers
                 {
                     TakeOrderCO(ReceivedMessages[0]);
                     ReceivedMessages.RemoveAt(0);
-                    
+
                 }
 
                 Thread.Sleep(1000);
             }
         }
 
-    
+
 
         void MessageReceived(string message)
         {
@@ -72,8 +72,8 @@ namespace WPFCalendar.Controllers
             {
                 Console.WriteLine("Malformed Message");
             }
-            
-           // ReceivedMessages.Add(message);
+
+            // ReceivedMessages.Add(message);
         }
 
 
@@ -88,7 +88,7 @@ namespace WPFCalendar.Controllers
             }
             else
             {
-                Console.WriteLine(  "Malformed message:" + message);
+                Console.WriteLine("Malformed message:" + message);
             }
         }
 
@@ -96,17 +96,26 @@ namespace WPFCalendar.Controllers
 
 
 
-
-
+        public bool Connected = false;
         public async Task Initialize()
         {
-            _connection = new HubConnectionBuilder().WithUrl(ServerAddress + Hub).Build();
-            _connection.On("OnMessageReceived", (string message) =>
+            try
             {
-                OnMessageReceived?.Invoke(message);
-            });
-            await _connection.StartAsync();
-            await Console.Out.WriteLineAsync(_connection.State.ToString());
+
+                _connection = new HubConnectionBuilder().WithUrl(ServerAddress + Hub).Build();
+                _connection.On("OnMessageReceived", (string message) =>
+                {
+                    OnMessageReceived?.Invoke(message);
+                });
+                await _connection.StartAsync();
+                await Console.Out.WriteLineAsync(_connection.State.ToString());
+            }
+            catch (Exception)
+            {
+
+            }
+            Connected = _connection.State == HubConnectionState.Connected ? true : false;
+
         }
 
         public async Task BroadcastMessage(string message)
@@ -131,11 +140,16 @@ namespace WPFCalendar.Controllers
 
         internal void TakeOrder(Player player, string order)
         {
+                string sender = order.Split(';')[1];
             if (order.Contains("RequestEventsList"))
             {
-                string sender =  order.Split(';')[1];
 
                 BroadCastStoryPoints(sender);
+            }
+            if (order.Contains("RequestDate"))
+            {
+
+                BroadcastDate(sender);
             }
 
         }
@@ -143,8 +157,14 @@ namespace WPFCalendar.Controllers
         public void BroadCastStoryPoints(string receiver)
         {
 
-            BroadcastService.BroadcastMessage(receiver+",ResponseEventsList;"+ MainWindow.StoryController.StringifyStoryPoints());
+            BroadcastService.BroadcastMessage(receiver + ",ResponseEventsList;" + MainWindow.StoryController.StringifyStoryPoints(MainWindow.Day));
         }
+        public void BroadcastDate(string receiver)
+        {
+
+            BroadcastService.BroadcastMessage(receiver + ",ResponseDateName;" + MainWindow.GetDate(MainWindow.Day));
+        }
+
 
 
     }

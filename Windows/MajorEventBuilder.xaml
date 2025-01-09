@@ -20,7 +20,7 @@
         <TextBox Grid.Row="1" Grid.Column="0" AcceptsReturn="true" Text="Overarcing reason" Margin="5" Name="tbMajorEventOverarcing"  ></TextBox>
         <ListBox Name="listSigns" Margin="5"  Grid.Row="1" Grid.Column="1"></ListBox>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Label>Happens on day</Label>
+            <Label x:Name="happensOnDayLabel" MouseDoubleClick="dayLabelDoubleClick">Happens on day</Label>
             <TextBox VerticalAlignment="Center" MinWidth="30" Margin="5" Text="1" Name="DayOfoccurenceTxt" HorizontalContentAlignment="Center" ></TextBox>
             <Button MaxHeight="30" MaxWidth="50" Margin="5" Click="Button_Click" >Sign+</Button>
             <Button MaxHeight="30" MaxWidth="50" Margin="5" Click="Button_Click_2" >Save</Button>

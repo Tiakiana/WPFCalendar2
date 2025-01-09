@@ -39,6 +39,7 @@ namespace WPFCalendar
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+        public int day;
 
 
         public MajorEventBuilder()
@@ -79,5 +80,11 @@ namespace WPFCalendar
             _main.Show();
             this.Close();
         }
+
+        private void dayLabelDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DayOfoccurenceTxt.Text = day.ToString();
+        }
+
     }
 }

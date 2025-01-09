@@ -12,12 +12,12 @@ namespace WPFCalendar
 {
     public partial class MainWindow : Window
     {
-        int Day = 8;
-        int Month = 0; 
+       public int Day = 8;
+        int Month = 0;
         public StoryPointController StoryController;
         public Persistence Persistence;
-        
 
+        private List<TimeOfDay> timeOfDays = new List<TimeOfDay>();
         //public List<string> Months = new List<string>() {"Resplendant Water", "Descending Water",
         //    "Ascending Wood", "Resplendant Wood", "Descending Wood",
         //    "Ascending Fire", "Resplendant Fire", "Descending Fire",
@@ -34,9 +34,9 @@ namespace WPFCalendar
 
 
         public List<string> Months = new List<string>() {
-            "Hare", "Dragon", "Serpent", 
-            "Horse", "Goat", "Monkey", 
-            "Rooster", "Dog","Boar", 
+            "Hare", "Dragon", "Serpent",
+            "Horse", "Goat", "Monkey",
+            "Rooster", "Dog","Boar",
             "Rat", "Ox", "Tiger"
         };
 
@@ -49,22 +49,22 @@ namespace WPFCalendar
             for (int i = 1; i < day; i++)
             {
                 dai++;
-                if (dai>28)
+                if (dai > 28)
                 {
                     dai = 1;
                 }
-                if (i%28 == 0)
+                if (i % 28 == 0)
                 {
                     Month++;
-                    if (Month>11)
+                    if (Month > 11)
                     {
                         year++;
                         Month = 0;
                     }
                 }
             }
-                
-            return (dai +". of the " + Months[Month]+" "+ (yearOfStart+year));
+
+            return (dai + ". of the " + Months[Month] + " " + (yearOfStart + year));
         }
 
         MainWindow me;
@@ -88,22 +88,29 @@ namespace WPFCalendar
             StoryController.PlayerLocations = Persistence.LoadLocationsOfPlayers();
             tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             lblpageInformation.Content = Day;
-          
+
+            for (int i = 0; i < 6; i++)
+            {
+               timeOfDays.Add((TimeOfDay)i);
+            }
+
+            dropDownTimeOfDay.ItemsSource = timeOfDays;
+
             RefreshPage();
 
             BroadcastService = new BroadcastService(this);
 
         }
-        
+
         public void btnLabel_Click(object sender, RoutedEventArgs e)
         {
             BroadcastService.BroadcastMessage("Hej");
             MyLabel.Content = "Sending";
-        
+
         }
 
 
-            private void btnPrevious_Click(object sender, RoutedEventArgs e)
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
             Day--;
             RefreshPage();
@@ -113,6 +120,7 @@ namespace WPFCalendar
         {
 
             MajorEventBuilder cto = new MajorEventBuilder(this);
+            cto.day = Day;
             cto.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             cto.Show();
             this.Hide();
@@ -121,7 +129,7 @@ namespace WPFCalendar
         private void RefreshPage()
         {
             //Til popups :D
-           // System.Windows.Controls.Primitives.Popup popup = new System.Windows.Controls.Primitives.Popup();
+            // System.Windows.Controls.Primitives.Popup popup = new System.Windows.Controls.Primitives.Popup();
             tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             List<string> origins = new List<string>();
             List<string> texts = StoryController.ConcatenateReasons(StoryController.FindCurrentStoryPoints(Day), ref origins);
@@ -133,7 +141,7 @@ namespace WPFCalendar
                 tbk.Text = origins[i];
                 pnl.Children.Add(tbk);
                 tbk = new TextBlock();
-                tbk.Text = texts[i];
+                tbk.Text =  texts[i];
                 pnl.Children.Add(tbk);
             }
 
@@ -151,21 +159,16 @@ namespace WPFCalendar
             JimmyLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[3])));
             ChopartLocation.Document.Blocks.Clear();
             ChopartLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[4])));
-            lblpageInformation.Content =  Day;
+            lblpageInformation.Content = Day;
             me.Title = "RPG Calendar - " + GetDate(Day);
-
-            for (int i = 0; i < 6; i++)
-            {
-            dropDownTimeOfDay.Items.Add(new ComboBoxItem().Content = (TimeOfDay)i); 
-
-            }
+           
 
 
         }
         int TimeOfDaySelected = 0;
 
 
-      private void btnNext_Click(object sender, RoutedEventArgs e)
+        private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             Day++;
             RefreshPage();
@@ -173,6 +176,17 @@ namespace WPFCalendar
             //tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             //tbMainView.ToolTip = StoryController.ConcatenateReasons(StoryController.FindCurrentStoryPoints(Day));
             //lblpageInformation.Content = Day;
+
+
+            if (BroadcastService == null || !BroadcastService.Connected)
+            {
+                this.Background = new SolidColorBrush(new Color() { R = 255, G = 0, B = 0, A = 255 });
+            }
+            else
+            {
+                this.Background = new SolidColorBrush(new Color() { R = 255, G = 255, B = 255, A = 255 });
+            }
+
         }
         private void btnCommitLocations(object sender, RoutedEventArgs e)
         {
@@ -182,25 +196,25 @@ namespace WPFCalendar
             string jimmytext = new TextRange(JimmyLocation.Document.ContentStart, JimmyLocation.Document.ContentEnd).Text;
             string choparttext = new TextRange(ChopartLocation.Document.ContentStart, ChopartLocation.Document.ContentEnd).Text;
 
-            Persistence.SaveLocationsOfPlayers(isatext,thomastext,quangtext,jimmytext,choparttext);
+            Persistence.SaveLocationsOfPlayers(isatext, thomastext, quangtext, jimmytext, choparttext);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                bool ting;
-                if (playerEyesTickBox.IsChecked == null)
+                bool visibletoplayers;
+                if (playerEyesTickBox.IsChecked == null || playerEyesTickBox.IsChecked == false)
                 {
-                    ting = false;
+                    visibletoplayers = false;
                 }
                 else
                 {
-                    ting = true;
+                    visibletoplayers = true;
                 }
 
                 int thing = int.Parse(tbNewDay.Text);
-                StoryController.StoryPoints.Add(new StoryPoint(tbNewEventTxt.Text, tbNewEventReason.Text, int.Parse(tbNewDay.Text),(TimeOfDay)TimeOfDaySelected,ting));
+                StoryController.StoryPoints.Add(new StoryPoint(tbNewEventTxt.Text, tbNewEventReason.Text, int.Parse(tbNewDay.Text), (TimeOfDay)TimeOfDaySelected, visibletoplayers));
                 tbNewDay.Text = "" + (Day + 1);
                 tbNewEventReason.Text = "Reason";
                 tbNewEventTxt.Text = "Text";
@@ -271,18 +285,18 @@ namespace WPFCalendar
 
         #endregion
 
-            System.Windows.Controls.Primitives.Popup popup = null;
+        System.Windows.Controls.Primitives.Popup popup = null;
         private void tbMainView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             List<string> origins = new List<string>();
             List<string> texts = StoryController.ConcatenateReasons(StoryController.FindCurrentStoryPoints(Day), ref origins);
-            if (popup!=null || texts.Count<1)
+            if (popup != null || texts.Count < 1)
             {
                 return;
             }
             popup = new System.Windows.Controls.Primitives.Popup();
 
-        //    tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
+            //    tbMainView.Text = StoryController.ConcatenateStorypoints(StoryController.FindCurrentStoryPoints(Day));
             StackPanel pnl = new StackPanel();
             pnl.Margin = new Thickness(5);
             for (int i = 0; i < texts.Count; i++)
@@ -308,16 +322,16 @@ namespace WPFCalendar
 
             }
             popup.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-            
+
             Border b = new Border();
             b.Background = new SolidColorBrush(Colors.LightYellow);
             b.BorderBrush = new SolidColorBrush(Colors.Bisque);
             b.CornerRadius = new CornerRadius(3);
             b.BorderThickness = new Thickness(1);
             popup.Child = b;
-            
+
             b.Child = pnl;
-            
+
 
             popup.IsOpen = true;
             popup.StaysOpen = false;
@@ -331,16 +345,16 @@ namespace WPFCalendar
         {
             if (popup != null)
             {
-            popup.IsOpen = false;
+                popup.IsOpen = false;
 
-            popup = null;
+                popup = null;
             }
         }
 
-        
+
         void DeleteStoryPoint(StoryPoint point, System.Windows.Controls.Primitives.Popup popup)
         {
-            popup.IsOpen = false; 
+            popup.IsOpen = false;
             popup = null;
             StoryController.StoryPoints.Remove(point);
             Persistence.SaveCalendar();
@@ -357,10 +371,15 @@ namespace WPFCalendar
 
         }
 
+        private void dayLabelDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            tbNewDay.Text = Day.ToString();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Persistence.SaveDate(Day);
-            btnCommitLocations(null,null);
+            btnCommitLocations(null, null);
         }
 
         private void btnPriviousFive_Click(object sender, RoutedEventArgs e)
@@ -372,6 +391,8 @@ namespace WPFCalendar
             Day--;
             RefreshPage();
             ClosePopUp();
+
+
         }
 
         private void btnNextFive_Click(object sender, RoutedEventArgs e)
@@ -389,7 +410,7 @@ namespace WPFCalendar
         {
             ComboBox sen = sender as ComboBox;
             TimeOfDaySelected = sen.SelectedIndex;
-          
+
         }
 
     }

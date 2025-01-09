@@ -28,9 +28,10 @@ namespace WPFCalendar
         public string StringifyStoryPoints()
         {
             string res = "";
-            for (int i = 0; i < StoryPoints.Count; i++)
+            List<StoryPoint> points = StoryPoints.Where(x=> x.PlayerAvailable).ToList();
+            for (int i = 0; i < points.Count; i++)
             {
-                StoryPoint item = StoryPoints[i];
+                StoryPoint item = points[i];
 
                 if (item.PlayerAvailable)
                 {
@@ -38,7 +39,30 @@ namespace WPFCalendar
                     res += item.EventReason + "|";
                     res += (int)item.TimeOfDay + "|";
                     res += item.DayOfOccurence;
-                    if (i < StoryPoints.Count - 1)
+                    if (i < points.Count - 1)
+                    {
+                        res += "¤";
+                    }
+
+                }
+            }
+            return res;
+        }
+        public string StringifyStoryPoints(int day)
+        {
+            string res = "";
+            List<StoryPoint> points = StoryPoints.Where(x => x.PlayerAvailable && x.DayOfOccurence == day).ToList();
+            for (int i = 0; i < points.Count; i++)
+            {
+                StoryPoint item = points[i];
+
+                if (item.PlayerAvailable)
+                {
+                    res += item.EventText + "|";
+                    res += item.EventReason + "|";
+                    res += (int)item.TimeOfDay + "|";
+                    res += item.DayOfOccurence;
+                    if (i < points.Count - 1)
                     {
                         res += "¤";
                     }
@@ -48,13 +72,12 @@ namespace WPFCalendar
             return res;
         }
 
-
         public string ConcatenateStorypoints(List<StoryPoint> storypoints)
         {
             string res = "";
             foreach (var item in storypoints)
             {
-                res += item.EventText + "\n\n";
+                res += (item.PlayerAvailable?"(visible) ":"(Invisible) ")+ item.EventText + "\n\n";
             }
             return res;
         }

@@ -43,7 +43,7 @@
                     <TextBox Grid.Row="2" Text="EventReason" AcceptsReturn="true" Margin="5" Name="tbNewEventReason" GotKeyboardFocus="tbNewEventReason_GotKeyboardFocus" TabIndex="1"></TextBox>
 
                     <StackPanel Grid.Row="3" Orientation="Horizontal">
-                        <Label Grid.Row="3" VerticalAlignment="Center" Content="Day"></Label>
+                        <Label Grid.Row="3" VerticalAlignment="Center" Content="Day" x:Name="dayLabel" MouseDoubleClick="dayLabelDoubleClick"></Label>
                         <TextBox  Name="tbNewDay" Grid.Row="3" Width="25" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" GotKeyboardFocus="tbNewDay_GotKeyboardFocus" TabIndex="2">1</TextBox>
                         <ComboBox x:Name="dropDownTimeOfDay" Width="85"  SelectionChanged="dropDownSelectionChanged"></ComboBox>
                         <CheckBox x:Name="playerEyesTickBox" Content="visible" ></CheckBox>
