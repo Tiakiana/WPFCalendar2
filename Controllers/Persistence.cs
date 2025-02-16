@@ -16,7 +16,8 @@ namespace WPFCalendar
         public Persistence(StoryPointController stp)
         {
             _storyPointController = stp;
-            MainPath = AppDomain.CurrentDomain.BaseDirectory;// System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+            MainPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).Replace("Roaming", @"LocalLow/");
+            // System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
             FileName = "Save1.txt";
         }
 

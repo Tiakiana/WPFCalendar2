@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -12,7 +13,7 @@ namespace WPFCalendar
 {
     public partial class MainWindow : Window
     {
-       public int Day = 8;
+        public int Day = 8;
         int Month = 0;
         public StoryPointController StoryController;
         public Persistence Persistence;
@@ -78,9 +79,15 @@ namespace WPFCalendar
 
             StoryController = new StoryPointController();
             Persistence = new Persistence(StoryController);
-            //Persistence.SaveLocationsOfPlayers("Waka", "Waka", "Waka", "Waka", "Waka");
-            //Persistence.SaveCalendar();
-            //Persistence.SaveDate(1);
+            //Saves to C:\Users\{Bruger}\AppData\LocalLow
+
+            if (!File.Exists(Persistence.MainPath + "Date.txt"))
+            {
+                Persistence.SaveLocationsOfPlayers("Waka", "Waka", "Waka", "Waka", "Waka");
+                Persistence.SaveCalendar();
+                Persistence.SaveDate(1);
+
+            }
 
             Day = Persistence.LoadDate();
             StoryController.StoryPoints = Persistence.LoadCalendar();
@@ -91,7 +98,7 @@ namespace WPFCalendar
 
             for (int i = 0; i < 6; i++)
             {
-               timeOfDays.Add((TimeOfDay)i);
+                timeOfDays.Add((TimeOfDay)i);
             }
 
             dropDownTimeOfDay.ItemsSource = timeOfDays;
@@ -141,7 +148,7 @@ namespace WPFCalendar
                 tbk.Text = origins[i];
                 pnl.Children.Add(tbk);
                 tbk = new TextBlock();
-                tbk.Text =  texts[i];
+                tbk.Text = texts[i];
                 pnl.Children.Add(tbk);
             }
 
@@ -161,7 +168,7 @@ namespace WPFCalendar
             ChopartLocation.Document.Blocks.Add(new Paragraph(new Run(StoryController.PlayerLocations[4])));
             lblpageInformation.Content = Day;
             me.Title = "RPG Calendar - " + GetDate(Day);
-           
+
 
 
         }
@@ -215,7 +222,7 @@ namespace WPFCalendar
 
                 int thing = int.Parse(tbNewDay.Text);
                 StoryController.StoryPoints.Add(new StoryPoint(tbNewEventTxt.Text, tbNewEventReason.Text, int.Parse(tbNewDay.Text), (TimeOfDay)TimeOfDaySelected, visibletoplayers));
-                tbNewDay.Text = "" + (Day + 1);
+                tbNewDay.Text = "" + (Day);
                 tbNewEventReason.Text = "Reason";
                 tbNewEventTxt.Text = "Text";
                 playerEyesTickBox.IsChecked = false;
